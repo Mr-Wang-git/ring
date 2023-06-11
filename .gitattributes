@@ -1,1 +1,4 @@
-*[[:space:]].7z filter=lfs diff=lfs merge=lfs -text
+webContent filter=lfs diff=lfs merge=lfs -text
+config filter=lfs diff=lfs merge=lfs -text
+build filter=lfs diff=lfs merge=lfs -text
+src filter=lfs diff=lfs merge=lfs -text
