@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper	namespace="com.cl.mapper.AdminMapper">
+	<select id="findAdminIdByAandP" resultType="String">
+		SELECT id FROM ADMIN <where> ADMINACCOUNT =#{account} AND ADMINPASSWORD = #{pass}</where>
+	</select>
+	
+	<select id="FindOneByid" resultType="admin">
+		select * from ADMIN <where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="FindWEB" resultType="web">
+		select * from web where id = 1
+	</select>
+	
+	<select id="FindSevenCompany" resultType="companyInfo">
+		select * from COMPANYINFO limit 0,7 
+	</select>
+	
+	<select id="FindAllUser" resultType="userAandP">
+		select * from USERAANDP
+	</select>
+	
+	<select id="SelectUserAandp" resultType="String">
+		SELECT COUNT(*) FROM USERAANDP
+	</select>
+	<select id="SelectCompanyAandp" resultType="String">
+		SELECT COUNT(*) FROM CompanyAandp
+	</select>
+	<select id="Selectmessagefound" resultType="String">
+		SELECT COUNT(*) FROM MESSAGEFOUND
+	</select>
+	<select id="Selectinteractive" resultType="String">
+		SELECT COUNT(*) FROM interactive
+	</select>
+	<select id="Selectreal_timeinfo" resultType="String">
+		SELECT COUNT(*) FROM real_timeinfo
+	</select>
+	<select id="Selectresume" resultType="String">
+		SELECT COUNT(*) FROM resume
+	</select>
+	
+	
+	<!-- 删除user -->
+	<delete id="DeleteUser">
+		DELETE  FROM USERAANDP <where>id = #{id}</where> 
+	</delete>
+	<delete id="DeleteUserResume">
+		DELETE  FROM RESUME  <where>id = #{id}</where> 
+	</delete>
+	<delete id="DeleteUserInfo">
+		DELETE  FROM USERINFO <where>id = #{id}</where> 
+	</delete>
+	
+	<!-- 删除公司 -->
+	<delete id="deleteCompany">
+		delete from COMPANYAANDP <where>id=#{id}</where>
+	</delete>
+	<delete id="deleteCompanyinfo">
+		delete from COMPANYINFO <where>id = #{INFOID}</where>
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="UpdateUser">
+		update USERAANDP set password = #{pass} <where> id = #{id}</where>
+	</update>
+	
+	<!-- 查找所有公司 -->
+	<select id="FindAllCompany" resultType="companyAandP">
+		SELECT * FROM COMPANYAANDP
+	</select>
+	
+	<!-- 公司 -->
+	<update id="updateCompany">
+		update COMPANYAANDP set password = #{pass} <where> id = #{id}</where>
+	</update>
+	
+	<!-- 删除blog -->
+	<delete id="DeleteMess">
+		delete from MESSAGEFOUND <where> id = #{id}</where>
+	</delete>
+	
+	<!-- 删除资讯 -->
+	<delete id="DeleteNews">
+		delete from real_timeinfo<where>id = #{id}</where>
+	</delete>
+	
+	<!-- 添加资讯 -->
+	<insert id="insertNews">
+		INSERT INTO REAL_TIMEINFO(title,content,IMG,time) VALUES(#{title},#{content},#{img},#{time})
+	</insert>
+	<!-- 添加管理员 -->
+	<insert id="AddAdmin">
+		INSERT ADMIN(ADMINACCOUNT,ADMINPASSWORD) VALUES(#{ACC},#{pass})
+	</insert>
+</mapper>

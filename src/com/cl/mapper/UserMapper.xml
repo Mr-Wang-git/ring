@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper	namespace="com.cl.mapper.UserMapper">
+
+	<select id="selectPositionCount" resultType="int">
+		select count(*) from RECRUITMENTPOSITION
+	</select>
+	<select id="findSevPosition" resultType="recruitmentPosition">
+		select * from RECRUITMENTPOSITION ORDER BY id DESC limit 0,7
+	</select>
+	<select id="findFourMessage" resultType="messageFound">
+		select * from MESSAGEFOUND ORDER BY id DESC limit 0,4 
+	</select>
+	<select id="findFourResume" resultType="resume">
+		select * from resume ORDER BY id DESC limit 0,4  
+	</select>
+	<select id="findAllMessage" resultType="messageFound">
+		select * from MESSAGEFOUND order by id DESC
+	</select>
+	
+	
+	
+	<select id="findSomePosition" resultType="recruitmentPosition">
+		select * from RECRUITMENTPOSITION  
+		<if test="subadge!=null">
+			<where>
+				SUBADGE like #{subadge}
+			</where>
+		</if>
+		<if test="name!=null">
+				AND positionName like #{name}
+		</if>
+		<if test="address!=null">
+				AND Address like #{address}
+		</if>
+	 </select>
+	 
+	 <select id="findAllPosition" resultType="recruitmentPosition">
+	 	select * from RECRUITMENTPOSITION ORDER BY id DESC
+	 </select>
+	 
+	 <select id="selectUserName" resultType="String">
+		 SELECT RE.NAME FROM USERAANDP us ,RESUME RE 
+		 <where> 
+			 us.account = #{ACC}AND us.RESUMEID = RE.id 
+		</where>
+	 </select>
+	
+	
+	<select id="selectUserid" resultType="String">
+	 	SELECT id FROM USERAANDP us  <where>
+	 		us.account = #{ACC} 
+	 	</where> 
+	 </select>
+	 
+	 <insert id="insertBlog">
+	 	insert into MESSAGEFOUND(u_id,name,content,time) values(#{id},#{name},#{content},#{time})
+	 </insert>
+	 
+	 <select id="findAllNews" resultType="realTimeInfo">
+	 	SELECT * FROM real_timeinfo ORDER BY id DESC
+	 </select>
+	<select id="findOneNewsByid" resultType="realTimeInfo">
+		select * from real_timeinfo <where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="findOneResumeByaccount" resultType="resume">
+		SELECT re.id,re.phone,re.email,re.img,re.name,re.birthday,re.sex,re.outlook,re.household,re.education,re.edu_time,re.schoolName,re.major,re.majorKnow,re.position_time,re.companyName,re.position,re.certificateBookName,re.Honor,re.evaluation,re.salary FROM useraandp us , RESUME re <where> 
+		us.account=#{Account} AND us.resumeid = re.id
+		</where>
+	</select>
+	
+	
+	<select id="findResumeByid" resultType="resume">
+		select * from resume <where>
+			id= #{id}
+		</where>
+	</select>
+	
+	
+	<select id="findCompanyNameByid" resultType="String">
+		SELECT info.CompanyName FROM COMPANYAANDP AP ,COMPANYINFO info <where>
+		 ap.id=#{COMID} AND ap.infoid = info.id
+		 </where>
+	</select>
+	
+	<select id="findAllInteractiveBy2Id" resultType="interactive">
+		SELECT * FROM interactive 
+	 	<where>
+	 	 	com_id = #{COMID} AND user_id = #{USERID} order by id DESC
+	 	</where>
+	</select>
+	
+	 <insert id="insetInteractive">
+	 	INSERT INTO interactive(com_id,user_id,content) VALUES(#{COMID},#{USERID},#{CONTENT})
+	 </insert>
+	 
+	 <update id="updateUserMy" parameterType="resume">
+	 	UPDATE RESUME SET phone = #{phone},
+	 	email=#{email},img=#{img} ,NAME = #{name},
+	 	birthday=#{birthday},
+	 	sex = #{sex},outlook = #{outlook},household = #{household}
+	 	,education= #{education},edu_time =#{edu_time},schoolName = #{schoolName},
+	 	major=#{major},majorKnow=#{majorKnow},position_time=#{position_time},companyName=#{companyName}
+	 	,POSITION=#{position},certificateBookName=#{certificateBookName},Honor=#{Honor},evaluation=#{evaluation},salary=#{salary}
+	 	
+	 	<where>id = #{id}</where> 
+	 </update>
+
+	<select id="FindResumeIdByUAPId" resultType="int" parameterType="String">
+		select RESUMEID from USERAANDP <where>id = #{id}</where> 
+	</select>
+	
+	<select id="findAllInteractiveById" resultType="interactive">
+		select * from interactive <where> user_id = #{id} GROUP BY com_id </where>
+	</select>
+</mapper>

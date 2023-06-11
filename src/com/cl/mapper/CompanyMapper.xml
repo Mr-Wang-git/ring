@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper	namespace="com.cl.mapper.CompanyMapper">
+	
+	<select id="selectResumeCount" resultType="String"> 
+		SELECT count(*) from resume
+	</select>
+
+
+	<select id="findSevResume" resultType="resume">
+		SELECT * FROM resume limit 0,7
+	</select>
+	
+	<select id="findAllResume" resultType="resume">
+		SELECT * FROM resume
+	</select>
+	
+	<select id="findSomeResume" resultType="resume">
+		SELECT * FROM resume 
+		
+		<if test="education">
+			<where>
+				education like #{education}
+			</where>
+		</if>
+		<if test="major">
+			AND	major  like #{major}
+		</if>
+		<if test="schoolName">
+			AND	schoolName  like #{schoolName}
+		</if>
+		
+	 </select>
+	 
+	 <select id="SelectConpanyIdByAccount" resultType="String">
+	 	SELECT com.id FROM COMPANYAANDP COM 
+	 	<where>
+	 	com.account=#{account}
+	 	</where> 
+	 </select>
+	 
+	 <select id="findAllInteractiveBy2Id" resultType="interactive">
+	 	SELECT * FROM interactive 
+	 	<where>
+	 	 	com_id = #{COMID} AND user_id = #{USERID} order by id DESC
+	 	</where>
+	 </select>
+	 
+	 <select id="findUserNameByid" resultType="String">
+	
+			SELECT NAME FROM RESUME <where> id = #{USERID}</where>
+	 </select>
+	 
+	 <insert id="insetInteractive">
+	 	INSERT INTO interactive(com_id,user_id,content) VALUES(#{COMID},#{USERID},#{CONTENT})
+	 </insert>
+	 
+	 <select id="findOneCompanyInfo" resultType="companyinfo">
+		 SELECT info.id,info.img,info.companyName,info.legalrep,info.capital,info.incortime,info.phone,info.email,info.officeaddress,info.officialWebsite 
+		 FROM COMPANYINFO info,COMPANYAANDP AP 
+		 <where> ap.infoid = info.id AND ap.id = #{COMID} 
+		 </where>
+	 </select>
+	 
+	 <select id="selectCompanyName" resultType="String">
+	 	SELECT info.companyname FROM COMPANYAANDP AP ,COMPANYINFO info 
+	 	<where>
+	 		ap.account=#{ACC} AND ap.infoid = info.id
+	 	</where> 
+	 	
+	 </select>
+	 
+	 <select id="FindinfoIdByCAPId" resultType="int">
+	 	select INFOID from COMPANYAANDP <where>
+	 		id = #{id}
+	 	</where>
+	 </select>
+	 
+	 <insert id="insertBlog">
+	 	insert into MESSAGEFOUND(com_id,name,content,time) values(#{id},#{name},#{content},#{time})
+	 </insert>
+	 
+	 
+	 <update id="updateCompanyInfo" parameterType="companyInfo">
+	 	update COMPANYINFO set IMG =#{img},
+	 	COMPANYNAME = #{companyName},LEGALREP= #{legalRep},capital=#{capital},
+	 	INCORTIME=#{incorTime},phone=#{phone},
+	 	email=#{email},OFFICEADDRESS=#{officeAddress},officialWebsite=#{officialWebsite}
+	 	<where>
+	 		id = #{id}
+	 	</where>
+	 </update>
+	
+	<insert id="insertPosition" parameterType="recruitmentPosition">
+		insert RECRUITMENTPOSITION set requirement=#{requirement},
+		salary=#{salary},positionName=#{positionName},subadge=#{subadge},
+		address=#{address},com_id=#{com_id}
+	</insert>
+	
+	<select id="findAllInteractiveById" resultType="interactive">
+		select * from interactive <where>
+			com_id = #{id}  GROUP BY user_id
+		</where>
+	</select>
+
+
+</mapper>

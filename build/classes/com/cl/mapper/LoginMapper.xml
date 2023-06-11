@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper	namespace="com.cl.mapper.LoginMapper">
+
+	<select id= "SelectCompanyAccountAndPass" resultType="String">
+		SELECT ID FROM COMPANYAANDP<where>
+			account=#{ACC} and password = #{pass}
+		</where>
+	</select>
+	
+	<select id="SelectUserAccountAndPass" resultType="String">
+		SELECT ID FROM USERAANDP<where>
+			account=#{ACC} and password = #{pass}
+		</where>
+	</select>
+	
+	<select id="SelectCompanyPass" resultType="String">
+		SELECT PASSWORD FROM COMPANYAANDP COM,COMPANYINFO info <where> 
+			account =#{account} AND info.id = com.infoid AND info.phone = #{phone}
+	 	</where>
+	 </select>
+	 
+	 <select id="SelectUserPass" resultType="String">
+	 	SELECT PASSWORD FROM USERAANDP us ,USERINFO info 
+	 	<where> account=#{account} AND info.id = us.userinfoid AND info.phone=#{phone}</where>
+	 
+	 </select>
+	 
+	 <select id="findCompanyAccountByPhone" resultType="String">
+	 	SELECT account FROM  COMPANYAANDP COM,COMPANYINFO info <where>
+	 	 info.id = com.infoid AND info.phone = #{phone}
+	 	 </where>
+	 </select>
+	 
+	 <select id="findUserAccountByPhone" resultType="String">
+	 	SELECT account FROM  USERAANDP us ,USERINFO info <where>
+	 	 info.id=us.userinfoid AND info.phone=#{phone}
+	 	 </where>
+	 </select>
+	
+	
+
+</mapper>
